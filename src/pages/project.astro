@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Projects | Bumi">
+  <main class="flex flex-col flex-1 items-start justify-start px-4 py-12 max-w-4xl mx-auto custom-scrollbar space-y-16">
+    <p class="text-lg text-gray-700 dark:text-gray-300 text-left w-full">
+        <span class="text-red-500">root</span>@<span class="text-red-500">boemi</span>:~# ls -R projects/<span class="blink"></span>
+    </p>
+    <section class="w-full">
+        <h2 class="text-2xl font-bold mb-6">Featured Projects</h2>
+        <div id="featured-container" class="space-y-12"></div>
+    </section>
+    <section class="w-full">
+        <h2 class="text-2xl font-bold mb-6">Other Projects</h2>
+        <div id="other-container" class="grid grid-cols-1 sm:grid-cols-2 gap-8"></div>
+    </section>
+  </main>
+  <div id="modal" class="fixed inset-0 z-[100] bg-black/70 hidden items-center justify-center p-4">
+    <div id="modal-content" class="bg-white dark:bg-gray-900 p-8 rounded-lg max-w-3xl w-full mx-auto relative max-h-[90vh] overflow-y-auto">
+        <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 dark:hover:text-white" aria-label="Close modal">
+            <i class="fas fa-times fa-lg"></i>
+        </button>
+        <h2 id="modal-title" class="text-2xl font-bold mb-4 text-black dark:text-white"></h2>
+        <div id="modal-description" class="mb-6 text-gray-800 dark:text-gray-300 prose dark:prose-invert"></div>
+        <a id="modal-link" href="#" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            View on GitHub <i class="fab fa-github ml-2"></i>
+        </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // FIX: Deklarasikan properti global agar TypeScript tidak error
+  declare global {
+    interface Window {
+      marked: any;
+      projectClickHandler: any;
+    }
+  }
+
+  // Fungsi utama yang akan dipanggil di awal dan setelah navigasi
+  function initializeProjectPage() {
+    
+    // Fungsi inti yang berisi semua logika render
+    function runLogicWithMarked() {
+      const marked = window.marked;
+
+      const featured = [
+        {
+            title: "Well Architected SIEM Implementation", 
+            short: "Complete SIEM design & implementation for automated security monitoring.", 
+            full: `### SIEM Architecture with Wazuh & TheHive
+This project aims to design and implement a robust **Security Information and Event Management (SIEM)** system using Wazuh for intrusion detection and TheHive for incident response management.
+
+### Key Features:
+- **Security Monitoring**: Utilizes Wazuh Agents to monitor endpoint activity in real-time.
+- **Threat Detection**: Custom detection rules in Wazuh to identify common attack patterns.
+- **Incident Response**: Integration with TheHive to automatically create cases and tasks when an incident is detected.
+- **Visualization**: Grafana dashboards to visualize security data and incident status.
+
+### Technologies Used:
+- **Wazuh**: Host-based Intrusion Detection System (HIDS).
+- **TheHive**: Incident Response Platform (IRP).
+- **Grafana**: For visualization and dashboards.
+- **Docker**: For containerizing the entire architecture.`, 
+            images: ["/assets/soc.png", "/assets/soc2.png"], 
+            link: "https://github.com/Merpatipatipati/PBL307FINAL"
+        },
+        {
+            title: "DDoS Defend Matrix", 
+            short: "Real-time DDoS mitigation system with simulation & monitoring.", 
+            full: `### DDoS Defend Matrix
+This project builds a system to simulate and mitigate **Distributed Denial of Service (DDoS)** attacks in real-time.
+
+### Workflow:
+1.  **Attack Simulation**: Python scripts are used to simulate various types of DDoS attacks.
+2.  **Network Monitoring**: NetHogs monitors network traffic to detect bandwidth anomalies.
+3.  **Detection & Blocking**: If traffic exceeds a set threshold, the system identifies the attacker's IP address and adds it to the UFW (Uncomplicated Firewall) blacklist.
+4.  **Notification**: A Telegram bot sends instant notifications about detected attacks and the mitigation actions taken.
+
+### Components:
+- **UFW**: Firewall for IP blocking.
+- **NetHogs**: Network traffic monitoring tool.
+- **Python**: For simulation and orchestration scripts.
+- **Telegram Bot**: For notifications.`, 
+            images: ["/assets/ddos1.png", "/assets/ddos2.png"], 
+            link: "https://github.com/earthwrld/PBL-RKS213-DDoS-Defend-Matrix"
+        },
+        {
+            title: "OTP Cryptography", 
+            short: "OTP implementation with cryptographic analysis (perfect secrecy).", 
+            full: `### One-Time Pad (OTP) Cryptography Implementation
+A Python program that demonstrates encryption and decryption using the One-Time Pad (OTP) method, which is theoretically unbreakable if used correctly.
+
+### Features:
+- **Encryption**: Combines plaintext with a random key using an XOR operation to produce ciphertext.
+- **Decryption**: Combines the ciphertext with the same key to restore the original plaintext.
+- **Perfect Secrecy**: This project explains the concept of perfect secrecy, where the ciphertext provides no information about the plaintext without the key.
+
+The primary goal of this project is to learn the fundamental concepts of symmetric cryptography.`, 
+            images: ["/assets/otp.png"], 
+            link: "https://polibatam.id/PBL-RKS118"
+        }
+    ];
+    const others = [
+        {
+            title: "brmbox", 
+            img: "/assets/brmbox.png", 
+            short: "Brute-force tool for MikroTik Winbox logins using dictionary attacks.", 
+            full: `### brmbox: Winbox Bruteforce Tool
+*brmbox* is a tool written in Python to perform a dictionary-based brute force attack against the MikroTik Winbox login service (port 8291).
+
+### How It Works:
+- The tool targets the MAC address of MikroTik devices on the local network.
+- It uses a wordlist (dictionary list) to attempt combinations of usernames and passwords.
+- It was developed for educational and penetration testing purposes to test the security of default or weak credentials on MikroTik devices.`, 
+            link: "https://github.com/earthwrld/mac-winbox-bruteforce"
+        },
+        {
+            title: "V0VCIFBPUlRP (WEB PORTO)", 
+            img: "/assets/webporto1.png", 
+            short: "A personal website portfolio designed with a minimalist theme.", 
+            full: `### Personal Portfolio Website
+This is the portfolio website you are currently viewing. It was built from scratch to showcase my projects, skills, and writings.
+
+### Technology Stack:
+- **Astro**: As the main framework for building a fast and modern site.
+- **Tailwind CSS**: For responsive and utility-first styling.
+- **TypeScript**: To maintain code quality and scalability.
+- **View Transitions**: An Astro API to create smooth page-to-page animations.
+
+This project itself serves as a testament to my front-end web development capabilities.`, 
+            link: "#"
+        }
+    ];
+
+      const sliderIndices = featured.map(() => 0);
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDescription = document.getElementById('modal-description');
+      const modalLink = document.getElementById('modal-link');
+      function openModal(type, index) { const project = type === 'f' ? featured[index] : others[index]; if (modalTitle) modalTitle.textContent = project.title; if (modalDescription) modalDescription.innerHTML = marked.parse(project.full); if (modalLink) (modalLink as HTMLAnchorElement).href = project.link; if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); } document.body.style.overflow = 'hidden'; }
+      function closeModal() { if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); } document.body.style.overflow = 'auto'; }
+      
+      function renderProjects() {
+          const featuredContainer = document.getElementById('featured-container');
+          const otherContainer = document.getElementById('other-container');
+          if (!featuredContainer || !otherContainer) return;
+          featuredContainer.innerHTML = '';
+          otherContainer.innerHTML = '';
+
+          featured.forEach((p, i) => {
+              const div = document.createElement('div');
+              div.className = 'bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden';
+              div.innerHTML = `
+                  <div class="relative w-full h-[20rem] md:h-[30rem] bg-gray-100 dark:bg-gray-700">
+                      <img src="${p.images[0]}" alt="${p.title}" class="w-full h-full object-cover" id="featured-img-${i}">
+                      <button class="slider-button slider-button-left" data-action="slide" data-index="${i}" data-direction="-1" aria-label="Previous Image">&#10094;</button>
+                      <button class="slider-button slider-button-right" data-action="slide" data-index="${i}" data-direction="1" aria-label="Next Image">&#10095;</button>
+                  </div>
+                  <div class="p-6">
+                      <div class="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6">
+                          <h3 class="text-xl font-bold text-gray-800 dark:text-white w-full md:w-2/3">${p.title}</h3>
+                          <div class="text-left md:text-right w-full md:w-1/3">
+                              <p class="text-gray-600 dark:text-gray-300 mb-3 text-sm">${p.short}</p>
+                              <div class="flex justify-start md:justify-end items-center gap-4">
+                                  <button data-action="modal" data-type="f" data-index="${i}" class="text-red-500 hover:text-red-500 hover:underline font-semibold text-sm">Read more</button>
+                                  <a href="${p.link}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-1 text-sm" rel="noopener noreferrer">View project <i class="fas fa-external-link-alt text-xs"></i></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>`;
+              featuredContainer.appendChild(div);
+          });
+
+          others.forEach((p, i) => {
+              const d = document.createElement('div');
+              d.className = 'bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 flex flex-col';
+              d.innerHTML = `<img src="${p.img}" alt="${p.title}" class="w-full h-48 object-cover"><div class="p-4 flex flex-col flex-grow"><h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">${p.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400 mb-3 flex-grow">${p.short}</p><div class="mt-auto flex justify-between items-center text-sm pt-2"><button data-action="modal" data-type="o" data-index="${i}" class="text-red-500 hover:underline font-semibold">Read more</button><a href="${p.link}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold inline-flex items-center gap-1" rel="noopener noreferrer">View project <i class="fas fa-external-link-alt text-xs"></i></a></div></div>`;
+              otherContainer.appendChild(d);
+          });
+      }
+
+      function handleClick(e) { if (!(e.target instanceof HTMLElement)) return; const action = e.target.dataset.action; if (action === 'slide') { const index = parseInt(e.target.dataset.index || '0'); const direction = parseInt(e.target.dataset.direction || '0'); const project = featured[index]; const totalImages = project.images.length; sliderIndices[index] = (sliderIndices[index] + direction + totalImages) % totalImages; const imgElement = document.getElementById(`featured-img-${index}`) as HTMLImageElement; if (imgElement) imgElement.src = project.images[sliderIndices[index]]; } if (action === 'modal') { const type = e.target.dataset.type as 'f' | 'o'; const index = parseInt(e.target.dataset.index || '0'); openModal(type, index); } }
+      
+      renderProjects();
+      
+      const mainContainer = document.querySelector('main');
+      const oldClickHandler = window.projectClickHandler;
+      if (oldClickHandler) mainContainer?.removeEventListener('click', oldClickHandler);
+
+      mainContainer?.addEventListener('click', handleClick);
+      window.projectClickHandler = handleClick; 
+      
+      document.getElementById('close-modal-btn')?.addEventListener('click', closeModal);
+      modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal?.classList.contains('hidden')) closeModal(); });
+    }
+
+    if (typeof window.marked !== 'undefined') {
+      runLogicWithMarked();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+      script.onload = runLogicWithMarked;
+      document.head.appendChild(script);
+    }
+  }
+
+  initializeProjectPage();
+  document.addEventListener('astro:after-swap', initializeProjectPage);
+</script>

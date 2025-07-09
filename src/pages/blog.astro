@@ -1,0 +1,92 @@
+---
+// Bagian atas file (HTML) tidak perlu diubah
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Blog | Bumi">
+  <div class="flex flex-1 w-full max-w-6xl mx-auto py-8 px-4">
+      <main class="flex-1 p-6 custom-scrollbar overflow-y-auto">
+          <div class="text-sm text-gray-700 dark:text-gray-300 mb-6 font-mono select-none">
+              <span class="text-red-500">root</span>@<span class="text-red-500">boemi</span>:~# <span class="font-normal">curl medium.com/@boemi</span><span class="blink">|</span>
+          </div>
+          <section id="highlight" class="mb-12">
+              <h2 class="text-3xl font-bold mb-6 text-red-500 flex items-center gap-2">🔥 <span>Highlighted Posts</span></h2>
+              <div id="highlight-posts" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <p class="text-gray-500 dark:text-gray-400">Fetching highlighted posts...</p>
+              </div>
+          </section>
+          <section id="others">
+              <h2 class="text-2xl font-bold mb-6 text-red-500 flex items-center gap-2">📝 <span>Other Posts</span></h2>
+              <div id="other-posts" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <p class="text-gray-500 dark:text-gray-400">Fetching other posts...</p>
+              </div>
+          </section>
+      </main>
+  </div>
+</BaseLayout>
+<script>
+  function initializeBlogPage() {
+    const highlightTitles = [
+      "MAC-Level Access: Creating a Brute Force Tool for MikroTik Winbox",
+      "Detecting Koi Stealer Malware Through Traffic Analysis: A Case Study",
+      "ARP Spoofing Lab Using Docker Compose and Wireshark",
+      "Network Traffic Analysis Using Docker Compose and Wireshark"
+    ];
+
+    async function fetchPosts() {
+      const highlightsContainer = document.getElementById("highlight-posts");
+      const othersContainer = document.getElementById("other-posts");
+      if (!highlightsContainer || !othersContainer) return;
+      highlightsContainer.innerHTML = "<p class='text-gray-500 dark:text-gray-400'>Fetching highlighted posts...</p>";
+      othersContainer.innerHTML = "<p class='text-gray-500 dark:text-gray-400'>Fetching other posts...</p>";
+
+      try {
+        const response = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@boemi");
+        if (!response.ok) throw new Error('Network response was not ok.');
+        const data = await response.json();
+        const posts = data.items || [];
+        const highlightedPosts = posts.filter(p => highlightTitles.includes(p.title));
+        const otherPosts = posts.filter(p => !highlightTitles.includes(p.title));
+        highlightsContainer.innerHTML = '';
+        othersContainer.innerHTML = '';
+
+        const createPostElement = (post) => {
+          const imgSrc = post.thumbnail || (post.content.match(/<img[^>]+src="([^">]+)"/)?.[1]);
+          const description = post.description.replace(/<[^>]*>?/gm, '').slice(0, 150);
+          const div = document.createElement("div");
+          
+          div.className = "bg-white/10 dark:bg-gray-800 p-6 rounded-lg shadow-lg transition hover:scale-[1.01] flex flex-col";
+          // FIX: Menyesuaikan ukuran font judul untuk mobile
+          div.innerHTML = `
+            ${imgSrc ? `<img src="${imgSrc}" alt="Thumbnail for ${post.title}" class="mb-4 rounded-md object-cover max-h-48 w-full">` : ''}
+            <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="text-xl sm:text-2xl font-semibold text-red-400 hover:underline">${post.title}</a>
+            <div class="flex items-center text-sm text-gray-400 dark:text-gray-500 mb-2">
+              <i class="far fa-calendar-alt mr-2"></i> ${new Date(post.pubDate).toLocaleDateString()}
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-base leading-relaxed">${description}...</p>
+          `;
+          return div;
+        };
+
+        if (highlightedPosts.length > 0) {
+          highlightedPosts.forEach(p => highlightsContainer.append(createPostElement(p)));
+        } else {
+          highlightsContainer.innerHTML = "<p class='text-gray-500 dark:text-gray-400'>No highlighted posts found.</p>";
+        }
+
+        if (otherPosts.length > 0) {
+          otherPosts.forEach(p => othersContainer.append(createPostElement(p)));
+        } else {
+          othersContainer.innerHTML = "<p class='text-gray-500 dark:text-gray-400'>No other posts found.</p>";
+        }
+
+      } catch (error) {
+        console.error("Failed to fetch Medium posts:", error);
+        highlightsContainer.innerHTML = "<p class='text-red-500'>Gagal memuat highlight.</p>";
+        othersContainer.innerHTML = "<p class='text-red-500'>Gagal memuat artikel.</p>";
+      }
+    }
+    fetchPosts();
+  }
+  initializeBlogPage();
+  document.addEventListener('astro:after-swap', initializeBlogPage);
+</script>

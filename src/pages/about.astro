@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About | Bumi">
+  <div class="flex flex-col lg:flex-row flex-1 w-full max-w-6xl mx-auto py-8">
+    
+    <aside class="w-full lg:w-1/4 lg:min-w-[200px] lg:flex-shrink-0 p-6 lg:pr-10 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-700 lg:sticky top-28 h-auto lg:h-[calc(100vh-theme(space.28))]">
+      <div class="flex flex-row lg:flex-col items-center gap-4 lg:gap-0">
+        <img src="/assets/foto profile2.jpg" alt="Profile" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover shadow-lg flex-shrink-0">
+        <div class="text-left lg:text-center lg:mt-4 w-full">
+            <p class="text-sm text-gray-500 dark:text-gray-300 mb-2">Batam - Riau Islands</p>
+            <div class="flex gap-2 text-sm text-gray-600 dark:text-gray-400 justify-start lg:justify-center">
+                <span class="font-semibold text-red-500">Bahasa</span>
+                <span>/</span>
+                <span class="hover:text-red-500 cursor-pointer">English</span>
+            </div>
+        </div>
+      </div>
+      <nav class="w-full pl-4 mt-6 mb-auto hidden lg:block">
+        <ul class="space-y-4 text-gray-700 dark:text-gray-300">
+          <li><a href="#introduction" class="flex items-center group nav-link"><span class="w-3 h-px bg-gray-400 dark:bg-gray-500 mr-2 group-hover:bg-red-500"></span><span class="hover:text-red-500">Introduction</span></a></li>
+          <li><a href="#work-experience" class="flex items-center group nav-link"><span class="w-3 h-px bg-gray-400 dark:bg-gray-500 mr-2 group-hover:bg-red-500"></span><span class="hover:text-red-500">Work Experience</span></a></li>
+          <li><a href="#education" class="flex items-center group nav-link"><span class="w-3 h-px bg-gray-400 dark:bg-gray-500 mr-2 group-hover:bg-red-500"></span><span class="hover:text-red-500">Education</span></a></li>
+          <li><a href="#technical-skills" class="flex items-center group nav-link"><span class="w-3 h-px bg-gray-400 dark:bg-gray-500 mr-2 group-hover:bg-red-500"></span><span class="hover:text-red-500">Technical Skills</span></a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="flex-1 p-6 lg:pl-10 custom-scrollbar">
+        <div class="text-sm text-gray-700 dark:text-gray-300 mb-4">
+            <span class="text-red-500">root</span>@<span class="text-red-500">boemi</span>:~# cat about.md<span class="blink">|</span>
+        </div>
+        <section id="introduction" class="scroll-mt-24">
+            <h1 class="text-4xl font-bold mt-2">Bumi Aryadirangga</h1>
+            <h2 class="text-lg text-gray-700 dark:text-gray-400 mb-4">Cybersecurity Engineering Student</h2>
+            <div class="flex gap-4 mb-6">
+                <a href="https://github.com/earthwrld" class="hover:text-red-500 text-gray-700 dark:text-gray-300 text-lg"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://linkedin.com/in/bumiarya" class="hover:text-red-500 text-gray-700 dark:text-gray-300 text-lg"><i class="fab fa-linkedin"></i> Linkedin</a>
+                <a href="mailto:aryadirangga89@gmail.com" class="hover:text-red-500 text-gray-700 dark:text-gray-300 text-lg"><i class="fas fa-envelope"></i> Email</a>
+            </div>
+            <p class="text-md leading-relaxed dark:text-gray-300">
+                Hello! I'm <strong>Bumi Aryadirangga</strong>, a passionate Cybersecurity Engineering student at Politeknik Negeri Batam. My main interest is in blue team operations—defending systems, monitoring threats, and strengthening security posture.
+            </p>
+            <p class="mt-4 text-md leading-relaxed dark:text-gray-300">
+                I enjoy working on incident response, threat detection, and security monitoring. Currently, I'm focused on building my skills in SOC operations, digital forensics, and threat hunting to better protect organizations from cyber threats.
+            </p>
+        </section>
+        <section id="work-experience" class="mt-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold mb-4">Work Experience</h2>
+            <div class="space-y-8 text-sm dark:text-gray-300">
+                <div>
+                    <h3 class="text-lg font-semibold text-red-500"><i class="fas fa-briefcase mr-2"></i>Intern - IT Staff</h3>
+                    <p class="mt-2">June 2023 - December 2023</p>
+                    <p class="mt-2">Responsible for maintaining IT infrastructure and providing technical support. Involved in troubleshooting hardware/software issues and documenting IT processes.</p>
+                </div>
+            </div>
+        </section>
+        <section id="education" class="mt-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold mb-4">Education</h2>
+            <div class="space-y-8 text-sm dark:text-gray-300">
+                <div>
+                    <h3 class="text-lg font-semibold text-red-500"><i class="fas fa-graduation-cap mr-2"></i>Politeknik Negeri Batam</h3>
+                    <p class="mt-2">2023 - Present: Applied Bachelor's in Cyber Security Engineering</p>
+                    <p class="mt-2">Currently studying cyber security and gaining practical skills in network defense and ethical hacking.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-red-500"><i class="fas fa-school mr-2"></i>SMK Negeri 5 Batam</h3>
+                    <p class="mt-2">July 2020 - June 2023: Vocational High School Graduate in Computer and Network Engineering</p>
+                    <p class="mt-2">Graduated with a focus on computer and network engineering, including hands-on experience in hardware, networking, and System Administration.</p>
+                </div>
+            </div>
+        </section>
+        <section id="technical-skills" class="mt-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold mb-6">Technical Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm dark:text-gray-300">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 transition hover:shadow-lg">
+                    <h3 class="text-lg font-semibold text-red-500 mb-2 flex items-center"><i class="fas fa-network-wired mr-2"></i>Network Defense & IDS/IPS</h3>
+                    <p>Specialize in network defense, firewall setup, IDS/IPS implementation, and traffic monitoring. Tools: pfSense, Snort, Suricata.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 transition hover:shadow-lg">
+                    <h3 class="text-lg font-semibold text-red-500 mb-2 flex items-center"><i class="fas fa-shield-alt mr-2"></i>SIEM & Log Analysis</h3>
+                    <p>Experienced with Splunk and Wazuh for analyzing and correlating security events, detecting anomalies, and generating alerts.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 transition hover:shadow-lg">
+                    <h3 class="text-lg font-semibold text-red-500 mb-2 flex items-center"><i class="fab fa-linux mr-2"></i>Linux Administration</h3>
+                    <p>Manage Debian, Arch, and RedHat servers. Perform system updates, security hardening, and user management.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 transition hover:shadow-lg">
+                    <h3 class="text-lg font-semibold text-red-500 mb-2 flex items-center"><i class="fas fa-cogs mr-2"></i>Virtualization & Docker</h3>
+                    <p>Proficient in VMware, VirtualBox, and Docker. Create and manage isolated environments for testing and deployment.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+  </div>
+</BaseLayout>
+<script>
+  // Script tidak perlu diubah
+  const sections = document.querySelectorAll('main section[id]');
+  const navLinks = document.querySelectorAll('aside nav a');
+  if (sections.length && navLinks.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.remove('text-red-500', 'font-bold');
+            if (link.getAttribute('href')?.substring(1) === entry.target.id) {
+              link.classList.add('text-red-500', 'font-bold');
+            }
+          });
+        }
+      });
+    }, { rootMargin: "-50% 0px -50% 0px" });
+    sections.forEach(section => { observer.observe(section); });
+  }
+</script>
