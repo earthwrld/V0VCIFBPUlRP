@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Projects | Bumi">
   <main class="flex flex-col flex-1 items-start justify-start px-4 py-12 max-w-4xl mx-auto custom-scrollbar space-y-16">
     <p class="text-lg text-gray-700 dark:text-gray-300 text-left w-full">
-        <span class="text-red-500">root</span>@<span class="text-red-500">boemi</span>:~# ls -R projects/<span class="blink"></span>
+        <span class="text-red-500">root</span>@<span class="text-red-500">boemi</span>:~# ls -R projects/<span class="animate-blink">|</span>
     </p>
     <section class="w-full">
         <h2 class="text-2xl font-bold mb-6">Featured Projects</h2>
@@ -30,7 +30,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <script>
-  // FIX: Deklarasikan properti global agar TypeScript tidak error
   declare global {
     interface Window {
       marked: any;
@@ -38,10 +37,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
   }
 
-  // Fungsi utama yang akan dipanggil di awal dan setelah navigasi
   function initializeProjectPage() {
     
-    // Fungsi inti yang berisi semua logika render
     function runLogicWithMarked() {
       const marked = window.marked;
 
@@ -64,7 +61,7 @@ This project aims to design and implement a robust **Security Information and Ev
 - **Grafana**: For visualization and dashboards.
 - **Docker**: For containerizing the entire architecture.`, 
             images: ["/assets/soc.png", "/assets/soc2.png"], 
-            link: "https://github.com/Merpatipatipati/PBL307FINAL"
+            link: "https://github.com/earthwrld/PBL-RKS307-Well-Architected-SIEM-Implementation"
         },
         {
             title: "DDoS Defend Matrix", 
@@ -98,7 +95,7 @@ A Python program that demonstrates encryption and decryption using the One-Time 
 - **Perfect Secrecy**: This project explains the concept of perfect secrecy, where the ciphertext provides no information about the plaintext without the key.
 
 The primary goal of this project is to learn the fundamental concepts of symmetric cryptography.`, 
-            images: ["/assets/otp.png"], 
+            images: ["/assets/otp.png", "/assets/otp2.png"], 
             link: "https://polibatam.id/PBL-RKS118"
         }
     ];
@@ -139,8 +136,18 @@ This project itself serves as a testament to my front-end web development capabi
       const modalTitle = document.getElementById('modal-title');
       const modalDescription = document.getElementById('modal-description');
       const modalLink = document.getElementById('modal-link');
-      function openModal(type, index) { const project = type === 'f' ? featured[index] : others[index]; if (modalTitle) modalTitle.textContent = project.title; if (modalDescription) modalDescription.innerHTML = marked.parse(project.full); if (modalLink) (modalLink as HTMLAnchorElement).href = project.link; if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); } document.body.style.overflow = 'hidden'; }
-      function closeModal() { if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); } document.body.style.overflow = 'auto'; }
+      function openModal(type: 'f' | 'o', index: number) { 
+        const project = type === 'f' ? featured[index] : others[index]; 
+        if (modalTitle) modalTitle.textContent = project.title; 
+        if (modalDescription) modalDescription.innerHTML = marked.parse(project.full); 
+        if (modalLink) (modalLink as HTMLAnchorElement).href = project.link; 
+        if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); } 
+        document.body.style.overflow = 'hidden'; 
+      }
+      function closeModal() { 
+        if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); } 
+        document.body.style.overflow = 'auto'; 
+      }
       
       function renderProjects() {
           const featuredContainer = document.getElementById('featured-container');
@@ -155,8 +162,14 @@ This project itself serves as a testament to my front-end web development capabi
               div.innerHTML = `
                   <div class="relative w-full h-[20rem] md:h-[30rem] bg-gray-100 dark:bg-gray-700">
                       <img src="${p.images[0]}" alt="${p.title}" class="w-full h-full object-cover" id="featured-img-${i}">
-                      <button class="slider-button slider-button-left" data-action="slide" data-index="${i}" data-direction="-1" aria-label="Previous Image">&#10094;</button>
-                      <button class="slider-button slider-button-right" data-action="slide" data-index="${i}" data-direction="1" aria-label="Next Image">&#10095;</button>
+                      <button 
+                          class="absolute top-1/2 -translate-y-1/2 left-2 bg-black/40 hover:bg-black/70 text-white py-2 px-3 rounded-md text-xl z-30 select-none transition-colors duration-300 ease-in-out" 
+                          data-action="slide" data-index="${i}" data-direction="-1" aria-label="Previous Image">&#10094;
+                      </button>
+                      <button 
+                          class="absolute top-1/2 -translate-y-1/2 right-2 bg-black/40 hover:bg-black/70 text-white py-2 px-3 rounded-md text-xl z-30 select-none transition-colors duration-300 ease-in-out" 
+                          data-action="slide" data-index="${i}" data-direction="1" aria-label="Next Image">&#10095;
+                      </button>
                   </div>
                   <div class="p-6">
                       <div class="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6">
@@ -181,7 +194,24 @@ This project itself serves as a testament to my front-end web development capabi
           });
       }
 
-      function handleClick(e) { if (!(e.target instanceof HTMLElement)) return; const action = e.target.dataset.action; if (action === 'slide') { const index = parseInt(e.target.dataset.index || '0'); const direction = parseInt(e.target.dataset.direction || '0'); const project = featured[index]; const totalImages = project.images.length; sliderIndices[index] = (sliderIndices[index] + direction + totalImages) % totalImages; const imgElement = document.getElementById(`featured-img-${index}`) as HTMLImageElement; if (imgElement) imgElement.src = project.images[sliderIndices[index]]; } if (action === 'modal') { const type = e.target.dataset.type as 'f' | 'o'; const index = parseInt(e.target.dataset.index || '0'); openModal(type, index); } }
+      function handleClick(e: Event) { 
+        if (!(e.target instanceof HTMLElement)) return; 
+        const action = e.target.dataset.action; 
+        if (action === 'slide') { 
+          const index = parseInt(e.target.dataset.index || '0'); 
+          const direction = parseInt(e.target.dataset.direction || '0'); 
+          const project = featured[index]; 
+          const totalImages = project.images.length; 
+          sliderIndices[index] = (sliderIndices[index] + direction + totalImages) % totalImages; 
+          const imgElement = document.getElementById(`featured-img-${index}`) as HTMLImageElement; 
+          if (imgElement) imgElement.src = project.images[sliderIndices[index]]; 
+        } 
+        if (action === 'modal') { 
+          const type = e.target.dataset.type as 'f' | 'o'; 
+          const index = parseInt(e.target.dataset.index || '0'); 
+          openModal(type, index); 
+        } 
+      }
       
       renderProjects();
       
@@ -202,8 +232,11 @@ This project itself serves as a testament to my front-end web development capabi
     } else {
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+      script.id = 'marked-script'; // Beri ID agar bisa dicek
       script.onload = runLogicWithMarked;
-      document.head.appendChild(script);
+      if (!document.getElementById('marked-script')) {
+        document.head.appendChild(script);
+      }
     }
   }
 

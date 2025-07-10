@@ -71,8 +71,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           textArray[randomIndex] = originalChar;
           animatedName!.textContent = textArray.join("");
         }
-        window.nameAnimationId = requestAnimationFrame(animateToBinary);
-      }, 80);
+        interface Window {
+          nameAnimationId: number;
+        }
+        window.nameAnimationId = Number(setTimeout(animateToBinary, 800));
+      }, 500);
     }
     
     animateToBinary();

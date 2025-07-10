@@ -10,92 +10,56 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p>> Connection established.</p>
       <p class="text-yellow-600 dark:text-yellow-400">> Bypassing main security layer...</p>
       <p class="text-yellow-600 dark:text-yellow-400">> Accessing restricted area [505]...</p>
-      <p class="text-green-700 dark:text-green-400">> Access Granted.</p>
+      <p class="text-green-600 dark:text-green-400">> Access Granted.</p>
       
-      <div id="custom-player-container" class="mt-6 w-full">
-        <div class="bg-gray-800/80 backdrop-blur-sm p-3 rounded-lg flex items-center gap-4 border border-gray-700">
-          <img id="album-art" src="/assets/505.png" alt="Album Art for 505" class="w-14 h-14 rounded-md object-cover flex-shrink-0">
-          
-          <div class="flex-grow">
-            <p id="song-title" class="font-sans font-bold text-white">505</p>
-            <p id="song-artist" class="font-sans text-sm text-gray-400">Arctic Monkeys</p>
-          </div>
-          
-          <button id="play-pause-btn" class="text-white text-2xl w-14 h-14 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors" aria-label="Play/Pause">
-            <i id="play-pause-icon" class="fas fa-play"></i>
-          </button>
-        </div>
+      <div id="spotify-player-container" class="mt-6 w-full">
+          <iframe 
+              style="border-radius:12px" 
+              src="https://open.spotify.com/embed/track/0BxE4FqsDD1Ot4YuBXwAPp?utm_source=generator&theme=0" 
+              width="100%" 
+              height="152" 
+              frameBorder="0" 
+              allowfullscreen="" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy">
+          </iframe>
       </div>
 
       <br>
       <p>> Loading secret message:</p>
       <p id="secret-message" class="mt-2 whitespace-pre-wrap"></p>
-      <span id="cursor" class="blink">█</span>
+      <span id="cursor" class="animate-blink">█</span>
     </div>
-    
-    <audio id="audio-player" src="/assets/505.mp3" preload="auto"></audio>
-
   </main>
 </BaseLayout>
 
 <script>
-  function runPlayerSequence() {
+  function runSequence() {
     const messageElement = document.getElementById('secret-message');
     const cursor = document.getElementById('cursor');
-    const audioPlayer = document.getElementById('audio-player') as HTMLAudioElement;
-    const playPauseBtn = document.getElementById('play-pause-btn');
-    const playPauseIcon = document.getElementById('play-pause-icon');
 
-    if (!messageElement || !cursor || !audioPlayer || !playPauseBtn || !playPauseIcon) return;
-
-    // --- Logika Pemutar Musik ---
-    const updatePlayButton = () => {
-      if (audioPlayer.paused) {
-        playPauseIcon.classList.remove('fa-pause');
-        playPauseIcon.classList.add('fa-play');
-      } else {
-        playPauseIcon.classList.remove('fa-play');
-        playPauseIcon.classList.add('fa-pause');
-      }
-    };
-
-    playPauseBtn.onclick = () => {
-      if (audioPlayer.paused) {
-        audioPlayer.play().catch(e => console.error("Playback failed:", e));
-      } else {
-        audioPlayer.pause();
-      }
-    };
-
-    audioPlayer.addEventListener('play', updatePlayButton);
-    audioPlayer.addEventListener('pause', updatePlayButton);
-
-    // FIX: Langsung mencoba autoplay saat halaman dimuat
-    audioPlayer.play().catch(error => {
-      console.log('Autoplay was prevented. User must click play.');
-      updatePlayButton(); // Pastikan ikonnya adalah 'play' jika autoplay gagal
-    });
-
-
-    // --- Logika Typewriter ---
-    const secretText = "I'm going back to 505...\n\nHehehe, you found the secret page! There's nothing special here, but your curiosity is a great asset for a cybersecurity enthusiast. Keep exploring!\n\n- Bumi";
+    if (!messageElement || !cursor) return;
+    
+    const secretText = "I'm going back to 505...\nHehehe, you found the secret page! There's nothing special here, but your curiosity is a great asset for a cybersecurity enthusiast. Keep exploring!\n\n- Bumi";
     let i = 0;
+
     messageElement.innerHTML = ''; 
 
     function typeWriter() {
       if (i < secretText.length) {
-        messageElement.innerHTML += secretText.charAt(i);
+        messageElement!.innerHTML += secretText.charAt(i);
         i++;
         setTimeout(typeWriter, 50);
       } else {
-        cursor.style.display = 'inline-block';
+        cursor!.style.display = 'inline-block';
       }
     }
     
+    // FIX: Logika untuk memunculkan player dihapus karena player sudah langsung terlihat
     cursor.style.display = 'none';
     setTimeout(typeWriter, 500);
   }
 
-  runPlayerSequence();
-  document.addEventListener('astro:after-swap', runPlayerSequence);
+  runSequence();
+  document.addEventListener('astro:after-swap', runSequence);
 </script>

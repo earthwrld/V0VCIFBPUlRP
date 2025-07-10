@@ -60,13 +60,13 @@ const currentPath = new URL(Astro.request.url).pathname;
 
         <div class="hidden md:flex md:justify-self-center">
           <div class="flex items-center gap-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm shadow-lg px-6 py-2 rounded-full border text-sm">
-            <a href="/" title="Home" class:list={[{ 'text-red-500 font-semibold': currentPath === '/' }, 'hover:text-red-500']}><i class="fas fa-home"></i></a>
+            <a href="/" class:list={[{ 'text-red-500 font-semibold': currentPath === '/' }, 'hover:text-red-500']}><i class="fas fa-home"></i></a>
             <span class="text-gray-400 dark:text-gray-500">|</span>
-            <a href="/about" title="About" class:list={[{ 'text-red-500 font-semibold': currentPath === '/about' }, 'flex items-center gap-1 hover:text-red-500']}><i class="fas fa-user"></i> About</a>
-            <a href="/project" title="Project" class:list={[{ 'text-red-500 font-semibold': currentPath === '/project' }, 'flex items-center gap-1 hover:text-red-500']}><i class="fas fa-th"></i> Project</a>
-            <a href="/blog" title="Blog" class:list={[{ 'text-red-500 font-semibold': currentPath === '/blog' }, 'flex items-center gap-1 hover:text-red-500']}><i class="far fa-newspaper"></i> Blog</a>
+            <a href="/about" class:list={[{ 'text-red-500 font-semibold': currentPath.startsWith('/about') }, 'flex items-center gap-1 hover:text-red-500']}><i class="fas fa-user"></i> About</a>
+            <a href="/project" class:list={[{ 'text-red-500 font-semibold': currentPath.startsWith('/project') }, 'flex items-center gap-1 hover:text-red-500']}><i class="fas fa-th"></i> Project</a>
+            <a href="/blog" class:list={[{ 'text-red-500 font-semibold': currentPath.startsWith('/blog') }, 'flex items-center gap-1 hover:text-red-500']}><i class="far fa-newspaper"></i> Blog</a>
             <span class="text-gray-400 dark:text-gray-500">|</span>
-            <button id="theme-toggle" title="Toggle Theme" class="hover:text-red-500">
+            <button id="theme-toggle" class="hover:text-red-500">
               <i id="theme-icon" class="fas fa-moon"></i>
             </button>
           </div>
@@ -74,10 +74,10 @@ const currentPath = new URL(Astro.request.url).pathname;
 
         <div class="md:justify-self-end">
           <div class="hidden md:flex items-center gap-4">
-            <a href="https://www.linkedin.com/in/bumiarya" target="_blank" title="LinkedIn - Bumi Aryadirangga" class="hover:text-red-500"><i class="fab fa-linkedin fa-lg"></i></a>
-            <a href="mailto:aryadirangga89@gmail.com" title="Send Email to Bumi Aryadirangga" class="text-red-500 hover:text-red-600"><i class="fas fa-envelope fa-lg"></i></a>
-            <a href="https://medium.com/@boemi" title="Medium Blog - @boemi" target="_blank" class="hover:text-red-500"><i class="fab fa-medium fa-lg"></i></a>
-            <a href="https://www.instagram.com/drngga" title="Instagram - @drngga" target="_blank" class="text-red-500 hover:text-red-600"><i class="fab fa-instagram fa-lg"></i></a>
+            <a href="https://www.linkedin.com/in/bumiarya" target="_blank" class="hover:text-red-500"><i class="fab fa-linkedin fa-lg"></i></a>
+            <a href="mailto:aryadirangga89@gmail.com" class="text-red-500 hover:text-red-600"><i class="fas fa-envelope fa-lg"></i></a>
+            <a href="https://medium.com/@boemi" target="_blank" class="hover:text-red-500"><i class="fab fa-medium fa-lg"></i></a>
+            <a href="https://www.instagram.com/drngga" target="_blank" class="text-red-500 hover:text-red-600"><i class="fab fa-instagram fa-lg"></i></a>
           </div>
           <div class="md:hidden">
             <button id="menu-toggle" class="text-xl p-2" aria-label="Open menu">
@@ -91,9 +91,9 @@ const currentPath = new URL(Astro.request.url).pathname;
       <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-md rounded-b-lg">
         <div class="flex flex-col items-center gap-2 p-4">
             <a href="/" class:list={[{'text-red-500 font-bold': currentPath === '/'}, 'w-full text-center p-3 text-lg rounded-md hover:bg-gray-200 dark:hover:bg-gray-700']}>Home</a>
-            <a href="/about" class:list={[{'text-red-500 font-bold': currentPath === '/about'}, 'w-full text-center p-3 text-lg rounded-md hover:bg-gray-200 dark:hover:bg-gray-700']}>About</a>
-            <a href="/project" class:list={[{'text-red-500 font-bold': currentPath === '/project'}, 'w-full text-center p-3 text-lg rounded-md hover:bg-gray-200 dark:hover:bg-gray-700']}>Project</a>
-            <a href="/blog" class:list={[{'text-red-500 font-bold': currentPath === '/blog'}, 'w-full text-center p-3 text-lg rounded-md hover:bg-gray-200 dark:hover:bg-gray-700']}>Blog</a>
+            <a href="/about/" class:list={[{'text-red-500 font-bold': currentPath.startsWith('/about')}, 'w-full text-center p-3 text-lg rounded-md hover:bg-gray-200 dark:hover:bg-gray-700']}>About</a>
+            <a href="/project/" class:list={[{'text-red-500 font-bold': currentPath.startsWith('/project')}, 'w-full text-center p-3 text-lg rounded-md hover:bg-gray-200 dark:hover:bg-gray-700']}>Project</a>
+            <a href="/blog/" class:list={[{'text-red-500 font-bold': currentPath.startsWith('/blog')}, 'w-full text-center p-3 text-lg rounded-md hover:bg-gray-200 dark:hover:bg-gray-700']}>Blog</a>
             <div class="w-full border-t border-gray-300/50 my-2"></div>
             <div class="flex items-center gap-6 p-2">
               <a href="https://www.linkedin.com/in/bumiarya" target="_blank" class="hover:text-red-500"><i class="fab fa-linkedin fa-2x"></i></a>
@@ -117,12 +117,11 @@ const currentPath = new URL(Astro.request.url).pathname;
     </footer>
 
     <script>
-      // Script tidak perlu diubah
       function initializeUI() {
         const isDark = () => document.documentElement.classList.contains('dark');
         const savedTheme = () => localStorage.getItem("theme");
         
-        const updateThemeIcons = (theme) => {
+        const updateThemeIcons = (theme: 'light' | 'dark') => {
           const icons = [document.getElementById("theme-icon"), document.getElementById("mobile-theme-icon")];
           const text = document.getElementById("mobile-theme-text");
           icons.forEach(icon => {
@@ -131,10 +130,10 @@ const currentPath = new URL(Astro.request.url).pathname;
               icon.classList.toggle('fa-sun', theme === 'dark');
             }
           });
-          if (text) text.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+          if (text) text.textContent = theme === 'dark' ? ' Light Mode' : ' Dark Mode';
         };
 
-        const applyTheme = (theme) => {
+        const applyTheme = (theme: 'light' | 'dark') => {
           document.documentElement.classList.toggle('dark', theme === 'dark');
           updateThemeIcons(theme);
         };
@@ -152,7 +151,7 @@ const currentPath = new URL(Astro.request.url).pathname;
           }
         });
 
-        applyTheme(savedTheme() || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+        applyTheme((savedTheme() as 'light' | 'dark') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
         
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
