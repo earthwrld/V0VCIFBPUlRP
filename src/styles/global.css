@@ -3,46 +3,25 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles consolidated from your HTML files */
+/* Global styles */
 body {
   font-family: 'Cardo', serif;
 }
 
-/* Blinking cursor animation */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.blink {
-  animation: blink 1s step-start infinite;
-}
-
-/* Pulsing circle animation from home page */
-@keyframes pulseScale {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.3); opacity: 0.6; }
-}
-.circle-anim {
-  animation: pulseScale 6s ease-in-out infinite;
-  transform-origin: center;
-}
-.circle-anim:nth-child(2) { animation-delay: 2s; }
-.circle-anim:nth-child(3) { animation-delay: 4s; }
-
-/* Custom scrollbar from about/project pages */
+/* Custom scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Or use Tailwind colors */
+  background: #f1f1f1;
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #cbd5e1; /* Or use Tailwind colors */
+  background: #cbd5e1;
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; /* Or use Tailwind colors */
+  background: #94a3b8;
 }
 
 /* Slider buttons from project page */
