@@ -8,13 +8,13 @@ const GLOBE_CONFIG = {
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
-  dark: 1,
+  dark: 1, // Dark mode globe
   diffuse: 1.2,
   mapSamples: 16000,
   mapBrightness: 6,
-  baseColor: [0.3, 0.3, 0.3],
+  baseColor: [0.3, 0.3, 0.3], // Dark surface so dots pop out
   markerColor: [251 / 255, 100 / 255, 21 / 255],
-  glowColor: [1, 1, 1],
+  glowColor: [0.2, 0.2, 0.2], // Subtle glow
   markers: [
     { location: [41.0082, 28.9784], size: 0.06 },
     { location: [40.7128, -74.006], size: 0.1 },
@@ -40,10 +40,14 @@ export function Globe({ className = "", config = GLOBE_CONFIG }) {
     if (!canvas) return;
 
     const handleResize = () => {
-      widthRef.current = canvas.offsetWidth;
+      if (canvas.offsetWidth > 0) {
+        widthRef.current = canvas.offsetWidth;
+      }
     };
-
-    handleResize();
+    
+    // Fallback if offsetWidth is 0 on mount
+    widthRef.current = canvas.offsetWidth || 300;
+    
     window.addEventListener("resize", handleResize);
 
     const globe = createGlobe(canvas, {
