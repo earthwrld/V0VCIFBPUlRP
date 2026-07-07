@@ -138,13 +138,7 @@ export default function NotFound({
 
           <motion.div variants={fadeUp}>
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <Button style={{
-                transform: 'scale(1)',
-                transition: 'transform 0.3s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
+              <Button>
                 <ArrowLeft size={20} />
                 {backText}
               </Button>

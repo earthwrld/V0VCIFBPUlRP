@@ -51,11 +51,11 @@ export function Globe({ className = "", config = GLOBE_CONFIG }) {
       width: widthRef.current * 2,
       height: widthRef.current * 2,
       onRender,
-      // Adjust colors to match portfolio dark mode and accent
-      dark: 1, // dark mode
-      glowColor: [0.1, 0.1, 0.1], // subdued glow
-      baseColor: [0.11, 0.13, 0.15], // dark grey matching surface
-      markerColor: [242 / 255, 95 / 255, 92 / 255], // var(--vibrant-coral)
+      // Use exactly the config colors requested for the cosmic look
+      dark: config.dark,
+      glowColor: config.glowColor,
+      baseColor: config.baseColor,
+      markerColor: config.markerColor,
     });
 
     return () => {
