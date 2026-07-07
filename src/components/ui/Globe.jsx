@@ -8,13 +8,13 @@ const GLOBE_CONFIG = {
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
-  dark: 0,
-  diffuse: 0.4,
+  dark: 1, // Changed to 1 so it renders properly on your dark background
+  diffuse: 1.2,
   mapSamples: 16000,
-  mapBrightness: 1.2,
-  baseColor: [1, 1, 1],
-  markerColor: [251 / 255, 100 / 255, 21 / 255], // We'll change this to match our Coral color [242/255, 95/255, 92/255] later if needed
-  glowColor: [1, 1, 1],
+  mapBrightness: 6,
+  baseColor: [0.8, 0.8, 0.8], // Bright dots
+  markerColor: [242 / 255, 95 / 255, 92 / 255], // Coral markers matching your theme
+  glowColor: [0.2, 0.2, 0.2], // Soft cosmic glow
   markers: [
     { location: [41.0082, 28.9784], size: 0.06 },
     { location: [40.7128, -74.006], size: 0.1 },
