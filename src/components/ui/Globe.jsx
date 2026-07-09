@@ -28,9 +28,10 @@ export function Globe({ className, config = GLOBE_CONFIG }) {
   const canvasRef = useRef(null);
   const phiRef = useRef(0);
   const widthRef = useRef(0);
+  const globeRef = useRef(null);
 
   const onRender = useCallback((state) => {
-    phiRef.current += 0.005; 
+    phiRef.current += 0.005;
     state.phi = phiRef.current;
     state.width = widthRef.current * 2;
     state.height = widthRef.current * 2;
@@ -40,30 +41,42 @@ export function Globe({ className, config = GLOBE_CONFIG }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const handleResize = () => {
-      if (canvas.offsetWidth > 0) {
-        widthRef.current = canvas.offsetWidth;
+    let globe = null;
+
+    // Use ResizeObserver to wait until canvas actually has dimensions
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const w = entry.contentRect.width;
+        if (w > 0 && !globe) {
+          widthRef.current = w;
+
+          globe = createGlobe(canvas, {
+            ...config,
+            width: w * 2,
+            height: w * 2,
+            onRender,
+          });
+          globeRef.current = globe;
+
+          // Stop observing once globe is created
+          ro.disconnect();
+        }
       }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    // CRITICAL: Ensure width is never 0 during initialization, otherwise cobe draws 0 dots!
-    const initialWidth = widthRef.current > 0 ? widthRef.current : 400;
-
-    const globe = createGlobe(canvas, {
-      ...config,
-      // Overriding diffuse and mapBrightness to ensure dots are dark grey/black on the white sphere
-      diffuse: 1.2,
-      mapBrightness: 6,
-      width: initialWidth * 2,
-      height: initialWidth * 2,
-      onRender,
     });
 
+    ro.observe(canvas);
+
+    const handleResize = () => {
+      widthRef.current = canvas.offsetWidth;
+    };
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      globe.destroy();
+      ro.disconnect();
+      if (globeRef.current) {
+        globeRef.current.destroy();
+        globeRef.current = null;
+      }
       window.removeEventListener("resize", handleResize);
     };
   }, [config, onRender]);
