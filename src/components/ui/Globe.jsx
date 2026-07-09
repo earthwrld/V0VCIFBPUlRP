@@ -8,12 +8,12 @@ const GLOBE_CONFIG = {
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
-  dark: 0, // 0 = White sphere
-  diffuse: 1.2,
+  dark: 0, // Light mode: white globe
+  diffuse: 0.4,
   mapSamples: 16000,
-  mapBrightness: 6,
-  baseColor: [0.2, 0.2, 0.2], // Dark grey lines/dots on the white sphere
-  markerColor: [251 / 255, 100 / 255, 21 / 255], // Orange markers
+  mapBrightness: 1.2,
+  baseColor: [1, 1, 1], // Base color is white, cobe automatically draws grey dots
+  markerColor: [251 / 255, 100 / 255, 21 / 255],
   glowColor: [1, 1, 1], // White glow
   markers: [
     { location: [41.0082, 28.9784], size: 0.06 },
