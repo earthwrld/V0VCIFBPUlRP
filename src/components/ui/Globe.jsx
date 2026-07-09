@@ -41,16 +41,24 @@ export function Globe({ className, config = GLOBE_CONFIG }) {
     if (!canvas) return;
 
     const handleResize = () => {
-      widthRef.current = canvas.offsetWidth;
+      if (canvas.offsetWidth > 0) {
+        widthRef.current = canvas.offsetWidth;
+      }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
 
+    // CRITICAL: Ensure width is never 0 during initialization, otherwise cobe draws 0 dots!
+    const initialWidth = widthRef.current > 0 ? widthRef.current : 400;
+
     const globe = createGlobe(canvas, {
       ...config,
-      width: widthRef.current * 2,
-      height: widthRef.current * 2,
+      // Overriding diffuse and mapBrightness to ensure dots are dark grey/black on the white sphere
+      diffuse: 1.2,
+      mapBrightness: 6,
+      width: initialWidth * 2,
+      height: initialWidth * 2,
       onRender,
     });
 
