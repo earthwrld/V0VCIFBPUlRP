@@ -63,8 +63,11 @@ export function Globe({ className = "" }) {
           width={dimensions.width}
           height={dimensions.height}
           backgroundColor="rgba(0,0,0,0)"
-          globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+          // earth-topology.png is a grayscale map where land is white/grey and oceans are black
+          globeImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
           bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+          atmosphereColor="#ffffff"
+          atmosphereAltitude={0.15}
           pointsData={markers}
           pointAltitude="size"
           pointColor="color"
