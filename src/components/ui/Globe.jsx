@@ -4,7 +4,16 @@ import GlobeGl from "react-globe.gl";
 export function Globe({ className = "" }) {
   const globeEl = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [countries, setCountries] = useState([]);
   const containerRef = useRef();
+
+  useEffect(() => {
+    // Fetch GeoJSON data for the world countries
+    fetch('https://raw.githubusercontent.com/vasturiano/react-globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
+      .then(res => res.json())
+      .then(data => setCountries(data.features))
+      .catch(err => console.error("Failed to load globe data", err));
+  }, []);
 
   useEffect(() => {
     if (globeEl.current) {
@@ -13,7 +22,7 @@ export function Globe({ className = "" }) {
       globeEl.current.controls().enableZoom = false;
       globeEl.current.pointOfView({ lat: 0, lng: 118, altitude: 2 });
     }
-  }, [dimensions.width]); // Run when globe renders
+  }, [dimensions.width, countries]); // Run when globe or data renders
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,15 +72,24 @@ export function Globe({ className = "" }) {
           width={dimensions.width}
           height={dimensions.height}
           backgroundColor="rgba(0,0,0,0)"
-          // earth-topology.png is a grayscale map where land is white/grey and oceans are black
-          globeImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-          bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+          
+          // Pure White Hex Polygon styling
+          hexPolygonsData={countries}
+          hexPolygonResolution={3}
+          hexPolygonMargin={0.3}
+          hexPolygonColor={() => 'rgba(255, 255, 255, 0.8)'}
+          
+          // Globe surface styling (transparent/dark so white hexes pop)
+          showAtmosphere={true}
           atmosphereColor="#ffffff"
-          atmosphereAltitude={0.15}
+          atmosphereAltitude={0.1}
+          globeImageUrl={null}
+          
+          // Markers
           pointsData={markers}
           pointAltitude="size"
           pointColor="color"
-          pointRadius={0.4}
+          pointRadius={0.5}
         />
       )}
     </div>
