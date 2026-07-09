@@ -81,22 +81,23 @@ export default function NotFound({
             <motion.div
               style={{
                 position: 'relative',
-                width: 'clamp(6rem, 15vw, 8rem)',
-                height: 'clamp(6rem, 15vw, 8rem)',
+                width: 'clamp(8rem, 20vw, 12rem)',
+                height: 'clamp(8rem, 20vw, 12rem)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'hidden',
+                borderRadius: '50%',
               }}
               variants={globeVariants}
               animate={["visible", "floating"]}
             >
-              <Globe size={128} />
+              <Globe size={300} style={{ transform: 'scale(0.6)', transformOrigin: 'center center', position: 'absolute' }} />
               <div style={{
                 pointerEvents: 'none',
                 position: 'absolute',
                 inset: 0,
-                background: 'radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, transparent 70%)'
+                background: 'radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, transparent 70%)'
               }} />
             </motion.div>
 

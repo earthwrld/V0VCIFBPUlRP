@@ -24,7 +24,7 @@ const GLOBE_CONFIG = {
 };
 
 // size: explicit pixel size of the globe canvas (avoids CSS sizing bugs)
-export function Globe({ className = "", config = GLOBE_CONFIG, size = 300 }) {
+export function Globe({ className = "", config = GLOBE_CONFIG, size = 300, style = {} }) {
   const canvasRef = useRef(null);
   const phiRef = useRef(0);
   const globeRef = useRef(null);
@@ -59,7 +59,7 @@ export function Globe({ className = "", config = GLOBE_CONFIG, size = 300 }) {
   return (
     <div
       className={className}
-      style={{ width: size, height: size, position: "relative" }}
+      style={{ width: size, height: size, position: "relative", ...style }}
     >
       <canvas
         ref={canvasRef}
