@@ -81,8 +81,8 @@ export default function NotFound({
             <motion.div
               style={{
                 position: 'relative',
-                width: 'clamp(8rem, 20vw, 12rem)',
-                height: 'clamp(8rem, 20vw, 12rem)',
+                width: 'clamp(6rem, 15vw, 8rem)',
+                height: 'clamp(6rem, 15vw, 8rem)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -92,7 +92,7 @@ export default function NotFound({
               variants={globeVariants}
               animate={["visible", "floating"]}
             >
-              <Globe size={300} style={{ transform: 'scale(0.6)', transformOrigin: 'center center', position: 'absolute' }} />
+              <Globe size={300} style={{ transform: 'scale(0.43)', transformOrigin: 'center center', position: 'absolute' }} />
               <div style={{
                 pointerEvents: 'none',
                 position: 'absolute',
