@@ -1,6 +1,5 @@
 import createGlobe from "cobe";
 import { useCallback, useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
 
 const GLOBE_CONFIG = {
   width: 600,
@@ -24,68 +23,49 @@ const GLOBE_CONFIG = {
   ],
 };
 
-export function Globe({ className, config = GLOBE_CONFIG }) {
+// size: explicit pixel size of the globe canvas (avoids CSS sizing bugs)
+export function Globe({ className = "", config = GLOBE_CONFIG, size = 300 }) {
   const canvasRef = useRef(null);
   const phiRef = useRef(0);
-  const widthRef = useRef(0);
   const globeRef = useRef(null);
 
-  const onRender = useCallback((state) => {
-    phiRef.current += 0.005;
-    state.phi = phiRef.current;
-    state.width = widthRef.current * 2;
-    state.height = widthRef.current * 2;
-  }, []);
+  const onRender = useCallback(
+    (state) => {
+      phiRef.current += 0.005;
+      state.phi = phiRef.current;
+      state.width = size * 2;
+      state.height = size * 2;
+    },
+    [size]
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let globe = null;
-
-    // Use ResizeObserver to wait until canvas actually has dimensions
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const w = entry.contentRect.width;
-        if (w > 0 && !globe) {
-          widthRef.current = w;
-
-          globe = createGlobe(canvas, {
-            ...config,
-            width: w * 2,
-            height: w * 2,
-            onRender,
-          });
-          globeRef.current = globe;
-
-          // Stop observing once globe is created
-          ro.disconnect();
-        }
-      }
+    const globe = createGlobe(canvas, {
+      ...config,
+      width: size * 2,
+      height: size * 2,
+      onRender,
     });
-
-    ro.observe(canvas);
-
-    const handleResize = () => {
-      widthRef.current = canvas.offsetWidth;
-    };
-    window.addEventListener("resize", handleResize);
+    globeRef.current = globe;
 
     return () => {
-      ro.disconnect();
-      if (globeRef.current) {
-        globeRef.current.destroy();
-        globeRef.current = null;
-      }
-      window.removeEventListener("resize", handleResize);
+      globe.destroy();
     };
-  }, [config, onRender]);
+  }, [config, onRender, size]);
 
   return (
-    <div className={cn("relative aspect-square w-full max-w-md", className)}>
+    <div
+      className={className}
+      style={{ width: size, height: size, position: "relative" }}
+    >
       <canvas
         ref={canvasRef}
-        className="size-full [contain:layout_paint_size]"
+        width={size * 2}
+        height={size * 2}
+        style={{ width: size, height: size }}
       />
     </div>
   );

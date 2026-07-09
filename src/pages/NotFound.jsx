@@ -83,11 +83,15 @@ export default function NotFound({
                 position: 'relative',
                 width: 'clamp(6rem, 15vw, 8rem)',
                 height: 'clamp(6rem, 15vw, 8rem)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
               }}
               variants={globeVariants}
               animate={["visible", "floating"]}
             >
-              <Globe />
+              <Globe size={128} />
               <div style={{
                 pointerEvents: 'none',
                 position: 'absolute',
