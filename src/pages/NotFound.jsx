@@ -33,7 +33,7 @@ const globeVariants = {
 
 export default function NotFound({
   title = "Ups! Lost in space",
-  description = "We couldn't find the page you're looking for. It might have been moved or deleted.",
+  description = "Looks like you've drifted out of orbit. This page doesn't exist — but the rest of the portfolio is still here, waiting to be explored.",
   backText = "Go Back",
 }) {
   return (
@@ -81,25 +81,19 @@ export default function NotFound({
             <motion.div
               style={{
                 position: 'relative',
-                width: 'clamp(6rem, 15vw, 8rem)',
-                height: 'clamp(6rem, 15vw, 8rem)',
+                width: 'clamp(4.5rem, 8vw, 6rem)',
+                height: 'clamp(4.5rem, 8vw, 6rem)',
                 borderRadius: '50%',
                 overflow: 'hidden',
               }}
               variants={globeVariants}
               animate={["visible", "floating"]}
             >
-              <Globe size={200} style={{
+              <Globe size={150} style={{
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-              }} />
-              <div style={{
-                pointerEvents: 'none',
-                position: 'absolute',
-                inset: 0,
-                background: 'radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, transparent 70%)'
               }} />
             </motion.div>
 
