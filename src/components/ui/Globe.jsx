@@ -1,72 +1,59 @@
-import createGlobe from "cobe";
-import { useCallback, useEffect, useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import GlobeGl from "react-globe.gl";
 
-const GLOBE_CONFIG = {
-  width: 600,
-  height: 600,
-  onRender: () => {},
-  devicePixelRatio: 2,
-  phi: 0,
-  theta: 0.3,
-  dark: 0,
-  diffuse: 0.4,
-  mapSamples: 16000,
-  mapBrightness: 1.2,
-  baseColor: [1, 1, 1],
-  markerColor: [251 / 255, 100 / 255, 21 / 255],
-  glowColor: [1, 1, 1],
-  markers: [
-    { location: [41.0082, 28.9784], size: 0.06 },
-    { location: [40.7128, -74.006], size: 0.1 },
-    { location: [34.6937, 135.5022], size: 0.05 },
-    { location: [-23.5505, -46.6333], size: 0.1 },
-  ],
-};
+// Markers on the globe — white to match the page's font color
+const MARKERS = [
+  { lat: 41.0082, lng: 28.9784, size: 0.4, color: "#ffffff" },   // Istanbul
+  { lat: 40.7128, lng: -74.006, size: 0.4, color: "#ffffff" },   // New York
+  { lat: 34.6937, lng: 135.5022, size: 0.4, color: "#ffffff" },  // Osaka
+  { lat: -23.5505, lng: -46.6333, size: 0.4, color: "#ffffff" }, // São Paulo
+  { lat: -6.2, lng: 106.8166, size: 0.5, color: "#ffffff" },     // Jakarta
+];
 
-// size: explicit pixel size of the globe canvas (avoids CSS sizing bugs)
-export function Globe({ className = "", config = GLOBE_CONFIG, size = 300, style = {} }) {
-  const canvasRef = useRef(null);
-  const phiRef = useRef(0);
-  const globeRef = useRef(null);
-
-  const onRender = useCallback(
-    (state) => {
-      phiRef.current += 0.005;
-      state.phi = phiRef.current;
-      state.width = size * 2;
-      state.height = size * 2;
-    },
-    [size]
-  );
+export function Globe({ className = "", size = 200 }) {
+  const globeEl = useRef();
+  const [ready, setReady] = useState(false);
+  const containerRef = useRef();
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    // Short delay to allow component to mount in DOM
+    const timer = setTimeout(() => setReady(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const globe = createGlobe(canvas, {
-      ...config,
-      width: size * 2,
-      height: size * 2,
-      onRender,
-    });
-    globeRef.current = globe;
-
-    return () => {
-      globe.destroy();
-    };
-  }, [config, onRender, size]);
+  useEffect(() => {
+    if (!globeEl.current || !ready) return;
+    const ctrl = globeEl.current.controls();
+    ctrl.autoRotate = true;
+    ctrl.autoRotateSpeed = 1.2;
+    ctrl.enableZoom = false;
+    ctrl.enablePan = false;
+    globeEl.current.pointOfView({ lat: 20, lng: 118, altitude: 2 });
+  }, [ready]);
 
   return (
     <div
+      ref={containerRef}
       className={className}
-      style={{ width: size, height: size, position: "relative", ...style }}
+      style={{ width: size, height: size, position: "relative", overflow: "hidden", borderRadius: "50%" }}
     >
-      <canvas
-        ref={canvasRef}
-        width={size * 2}
-        height={size * 2}
-        style={{ width: size, height: size }}
-      />
+      {ready && (
+        <GlobeGl
+          ref={globeEl}
+          width={size}
+          height={size}
+          backgroundColor="rgba(0,0,0,0)"
+          globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+          bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+          showAtmosphere={true}
+          atmosphereColor="#ffffff"
+          atmosphereAltitude={0.12}
+          pointsData={MARKERS}
+          pointAltitude="size"
+          pointColor="color"
+          pointRadius={0.5}
+        />
+      )}
     </div>
   );
 }
