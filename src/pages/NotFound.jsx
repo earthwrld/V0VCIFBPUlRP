@@ -34,7 +34,7 @@ const globeVariants = {
 export default function NotFound({
   title = "Ups! Lost in space",
   description = "Looks like you've drifted out of orbit. This page doesn't exist — but the rest of the portfolio is still here, waiting to be explored.",
-  backText = "Go Back",
+  backText = "Go Back 🚀",
 }) {
   return (
     <div style={{
