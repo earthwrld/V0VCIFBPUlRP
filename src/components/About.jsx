@@ -211,7 +211,7 @@ const About = () => {
   ];
 
   return (
-    <section ref={containerRef} id="about" style={{ padding: '8rem 0' }}>
+    <section ref={containerRef} id="about" style={{ padding: 'clamp(4rem, 10vw, 8rem) 0' }}>
       <div className="container">
         <div className="about-elem" style={{ marginBottom: '4rem' }}>
           <TerminalPrompt path="~/about" cmd="whoami" />
@@ -222,7 +222,7 @@ const About = () => {
           {/* Left Column (Auto-scrolling Native Marquee of Feature Cards) */}
           <div ref={marqueeRef} className="about-elem" style={{ 
             position: 'relative', 
-            height: '700px', 
+            height: 'clamp(450px, 70vh, 700px)', 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',

@@ -48,7 +48,7 @@ const Contact = () => {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '6rem 1rem'
+      padding: 'clamp(4rem, 10vw, 6rem) 1rem'
     }}>
       <div className="contact-elem" style={{ width: '100%', maxWidth: '800px', margin: '0 auto', textAlign: 'center', marginBottom: '3rem' }}>
         <TerminalPrompt path="~/network" cmd="nc -zv boemi 433" />
@@ -78,11 +78,11 @@ const Contact = () => {
         borderRadius: '1.5rem',
         background: 'linear-gradient(to bottom right, rgba(30, 34, 38, 0.8), rgba(20, 22, 24, 0.9))',
         border: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '3.5rem 2rem',
+        padding: 'clamp(2rem, 5vw, 3.5rem) clamp(1rem, 5vw, 2rem)',
         backdropFilter: 'blur(20px)',
         transition: 'transform 0.5s ease',
       }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2.5rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
           
           {/* Email */}
           <a href="mailto:aryadirangga89@gmail.com" className="social-icon email">

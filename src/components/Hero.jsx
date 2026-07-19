@@ -77,18 +77,18 @@ const Hero = () => {
 
   return (
     <section ref={containerRef} id="home" style={{ 
-      height: '100vh', 
+      minHeight: '100vh', 
       width: '100vw',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      padding: '4rem',
+      padding: 'clamp(1.5rem, 5vw, 4rem)',
       position: 'relative',
       overflow: 'hidden'
     }}>
 
       {/* Console Header */}
-      <header className="anim-header" style={{ position: 'absolute', top: '3rem', left: '10rem', zIndex: 30 }}>
+      <header className="anim-header" style={{ position: 'absolute', top: '3rem', left: 'clamp(2rem, 10vw, 10rem)', zIndex: 30 }}>
         <TerminalPrompt path="~" cmd="" />
       </header>
       
@@ -146,7 +146,7 @@ const Hero = () => {
       </div>
 
       {/* Footer */}
-      <footer className="anim-footer" style={{ zIndex: 30, display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '1400px', margin: '0 auto', alignItems: 'center', position: 'absolute', bottom: '2rem', left: '0', right: '0', padding: '0 4rem' }}>
+      <footer className="anim-footer hero-footer" style={{ zIndex: 30, display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '1400px', margin: '0 auto', alignItems: 'center', padding: '0 clamp(1.5rem, 5vw, 4rem)' }}>
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <a href="https://github.com/earthwrld" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} className="hover:text-primary"><Github /></a>
           <a href="https://linkedin.com/in/bumiarya" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} className="hover:text-primary"><Linkedin /></a>
@@ -168,6 +168,11 @@ const Hero = () => {
         .hero-image-box { order: 1; margin: 0; justify-self: center; }
         .hero-title-box { order: 3; justify-self: center; text-align: center; }
 
+        .hero-footer {
+          position: relative;
+          margin-top: 3rem !important;
+        }
+
         @media (min-width: 1024px) {
           .hero-responsive-grid {
             /* Force exact 3 equal columns to prevent overflow/shifting */
@@ -178,6 +183,14 @@ const Hero = () => {
           .hero-text-box { order: 1; margin: 0; justify-self: start; }
           .hero-image-box { order: 2; margin: 0; justify-self: center; }
           .hero-title-box { order: 3; justify-self: end; text-align: right; }
+          
+          .hero-footer {
+            position: absolute;
+            bottom: clamp(1rem, 4vw, 2rem);
+            left: 0;
+            right: 0;
+            margin-top: 0 !important;
+          }
         }
         
         @media (max-width: 768px) {

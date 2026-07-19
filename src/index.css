@@ -83,7 +83,7 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 8rem 0;
+  padding: clamp(4rem, 8vw, 8rem) 0;
   position: relative;
 }
 
