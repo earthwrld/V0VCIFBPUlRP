@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 
 const TerminalPrompt = ({ path, cmd }) => (
@@ -165,11 +165,6 @@ const Projects = () => {
     };
   }
 
-  const quoteVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
-  };
 
   return (
     <section id="projects" style={{ padding: '8rem 0', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
@@ -228,16 +223,11 @@ const Projects = () => {
 
           {/* Content */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <AnimatePresence mode="wait">
-              <motion.div
+              <div
                 key={activeIndex}
-                variants={quoteVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                style={{ background: 'var(--surface)', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid var(--surface-border)' }}
+                style={{ background: 'var(--surface)', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid var(--surface-border)', transition: 'transform 0.3s ease-in-out' }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 className="glowing-container"
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
@@ -270,8 +260,7 @@ const Projects = () => {
                     </span>
                   ))}
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
 
             {/* Navigation Arrows */}
             <div style={{ display: 'flex', gap: '1.5rem', paddingTop: '2rem', marginLeft: '1rem' }}>

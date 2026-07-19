@@ -1,35 +1,11 @@
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "../components/ui/Button";
 import { Globe } from "../components/ui/Globe";
 import GridBackground from "../components/GridBackground";
 
-// Animation Variants
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: "easeOut" } },
-};
 
-const globeVariants = {
-  hidden: { scale: 0.85, opacity: 0, y: 10 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" },
-  },
-  floating: {
-    y: [-4, 4],
-    transition: {
-      duration: 5,
-      ease: "easeInOut",
-      repeat: Infinity,
-      repeatType: "reverse",
-    },
-  },
-};
 
 export default function NotFound({
   title = "Ups! Lost in space",
@@ -50,14 +26,7 @@ export default function NotFound({
     }}>
       <GridBackground />
       
-      <AnimatePresence mode="wait">
-        <motion.div
-          style={{ textAlign: 'center', zIndex: 10 }}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          variants={fadeUp}
-        >
+      <div style={{ textAlign: 'center', zIndex: 10 }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -65,7 +34,7 @@ export default function NotFound({
             gap: '1.5rem',
             marginBottom: '2.5rem'
           }}>
-            <motion.span
+            <span
               style={{
                 fontSize: 'clamp(4.5rem, 8vw, 6rem)',
                 fontWeight: 'bold',
@@ -73,12 +42,12 @@ export default function NotFound({
                 userSelect: 'none',
                 opacity: 0.9
               }}
-              variants={fadeUp}
+
             >
               4
-            </motion.span>
+            </span>
 
-            <motion.div
+            <div
               style={{
                 position: 'relative',
                 width: 'clamp(4.5rem, 8vw, 6rem)',
@@ -86,8 +55,6 @@ export default function NotFound({
                 borderRadius: '50%',
                 overflow: 'hidden',
               }}
-              variants={globeVariants}
-              animate={["visible", "floating"]}
             >
               <Globe size={150} style={{
                 position: 'absolute',
@@ -95,9 +62,9 @@ export default function NotFound({
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
               }} />
-            </motion.div>
+            </div>
 
-            <motion.span
+            <span
               style={{
                 fontSize: 'clamp(4.5rem, 8vw, 6rem)',
                 fontWeight: 'bold',
@@ -105,13 +72,13 @@ export default function NotFound({
                 userSelect: 'none',
                 opacity: 0.9
               }}
-              variants={fadeUp}
+
             >
               4
-            </motion.span>
+            </span>
           </div>
         
-          <motion.h1
+          <h1
             style={{
               marginBottom: '1rem',
               fontSize: 'clamp(1.875rem, 5vw, 3rem)',
@@ -119,12 +86,11 @@ export default function NotFound({
               letterSpacing: '-0.02em',
               color: 'var(--text-primary)'
             }}
-            variants={fadeUp}
           >
             {title}
-          </motion.h1>
+          </h1>
 
-          <motion.p
+          <p
             style={{
               margin: '0 auto 2.5rem',
               maxWidth: '28rem',
@@ -132,21 +98,47 @@ export default function NotFound({
               color: 'var(--text-secondary)',
               lineHeight: 1.6
             }}
-            variants={fadeUp}
           >
             {description}
-          </motion.p>
+          </p>
 
-          <motion.div variants={fadeUp}>
+          <div>
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <Button>
+              <button
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.75rem',
+                  padding: '0.8rem 2rem',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  color: '#fff',
+                  borderRadius: '12px',
+                  fontSize: '1rem',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
                 <ArrowLeft size={20} />
                 {backText}
-              </Button>
+              </button>
             </Link>
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
+          </div>
+        </div>
     </div>
   );
 }
